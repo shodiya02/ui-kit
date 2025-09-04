@@ -3,14 +3,17 @@
     <!-- Trigger Button - This is what users click to open the dropdown -->
     <PopoverTrigger as-child>
       <Button
-        variant="outline"
-        role="combobox"
         :aria-expanded="open"
         :aria-label="ariaLabel"
-        :class="cn(
-          'w-full justify-between min-h-[40px] h-auto',
-          triggerClasses
-        )"
+        :class="
+          cn(
+            'w-full justify-between min-h-[40px] h-auto px-3 py-2 text-left rounded-md transition-all duration-200',
+            'hover:bg-muted/50 hover:text-foreground',
+            triggerClasses,
+          )
+        "
+        role="combobox"
+        variant="outline"
       >
         <!-- Selected items display -->
         <div class="flex flex-wrap gap-1 flex-1 text-left">
@@ -21,13 +24,12 @@
               :key="item.value"
               :variant="getBadgeVariant()"
               class="text-xs bg-primary text-white hover:bg-[#0F5BA3]"
-
             >
               {{ item.label }}
               <button
-                @click.stop="removeItem(item)"
-                class="ml-1 hover:text-destructive focus:outline-none focus:text-destructive"
                 :aria-label="`Remove ${item.label}`"
+                class="ml-1 hover:text-destructive focus:outline-none focus:text-destructive"
+                @click.stop="removeItem(item)"
               >
                 <X class="h-3 w-3" />
               </button>
@@ -40,8 +42,8 @@
 
         <!-- Icon for with-icon variant -->
         <component
-          v-if="props.displayVariant === 'with-icon' && props.icon"
           :is="props.icon"
+          v-if="props.displayVariant === 'with-icon' && props.icon"
           class="absolute left-3 h-4 w-4 text-muted-foreground"
         />
 
@@ -55,24 +57,27 @@
 
         <!-- Dropdown arrow -->
         <ChevronDown
-          class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
           :class="{ 'rotate-180': open }"
+          class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
         />
       </Button>
     </PopoverTrigger>
 
     <!-- Dropdown Content -->
-    <PopoverContent class="w-full p-0" align="start">
+    <PopoverContent
+      align="start"
+      class="ui-multiselect w-full p-0 bg-background border border-border shadow-lg"
+    >
       <Command>
         <!-- Search input -->
-        <CommandInput
-          :placeholder="searchPlaceholder"
-          v-model:value="searchQuery"
-        />
+        <CommandInput v-model:value="searchQuery" :placeholder="searchPlaceholder" />
 
         <!-- No results message or empty state -->
         <CommandEmpty>
-          <div v-if="props.displayVariant === 'empty-state'" class="flex flex-col items-center justify-center py-8 text-center">
+          <div
+            v-if="props.displayVariant === 'empty-state'"
+            class="flex flex-col items-center justify-center py-8 text-center"
+          >
             <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
               <span class="text-gray-400 text-xl">!</span>
             </div>
@@ -87,8 +92,8 @@
             v-for="option in filteredOptions"
             :key="option.value"
             :value="option.value"
-            @select="() => toggleOption(option)"
             class="flex items-center space-x-2 cursor-pointer"
+            @select="() => toggleOption(option)"
           >
             <!-- Checkbox to show selection state (conditional) -->
             <Checkbox
@@ -99,12 +104,12 @@
             <!-- Radio button style for with-checkbox variant when showCheckbox is false -->
             <div
               v-else-if="props.displayVariant === 'with-checkbox'"
-              class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center"
               :class="{ 'bg-blue-500 border-blue-500': isSelected(option) }"
+              class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center"
             >
               <div v-if="isSelected(option)" class="w-2 h-2 rounded-full bg-white"></div>
             </div>
-            <span class="flex-1" :class="{ 'text-sm': props.longText }">{{ option.label }}</span>
+            <span :class="{ 'text-sm': props.longText }" class="flex-1">{{ option.label }}</span>
           </CommandItem>
         </CommandGroup>
       </Command>
@@ -117,7 +122,13 @@ import { computed, ref, watch } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ChevronDown, X } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
@@ -128,101 +139,111 @@ const props = defineProps({
   options: {
     type: Array,
     required: true,
-    validator: (options) => options.every(opt => opt.value && opt.label)
+    validator: (options) => options.every((opt) => opt.value && opt.label),
   },
 
   // Currently selected values
   modelValue: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
 
   // Placeholder text when nothing is selected
   placeholder: {
     type: String,
-    default: 'Select options...'
+    default: 'Select options...',
   },
 
   // Search placeholder text
   searchPlaceholder: {
     type: String,
-    default: 'Search options...'
+    default: 'Search options...',
   },
 
   // Message when no options match search
   emptyMessage: {
     type: String,
-    default: 'No options found.'
+    default: 'No options found.',
   },
 
   // Maximum number of selections allowed
   maxSelections: {
     type: Number,
-    default: null
+    default: null,
   },
 
   // Component variant for different states
   variant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'error', 'success', 'warning', 'focus', 'hover', 'selected'].includes(value)
+    validator: (value) =>
+      ['default', 'error', 'success', 'warning', 'focus', 'hover', 'selected'].includes(value),
   },
 
   // Display variant for different layouts
   displayVariant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'static-label', 'dynamic-height', 'with-icon', 'with-checkbox', 'long-text', 'empty-state'].includes(value)
+    validator: (value) =>
+      [
+        'default',
+        'static-label',
+        'dynamic-height',
+        'with-icon',
+        'with-checkbox',
+        'long-text',
+        'empty-state',
+      ].includes(value),
   },
 
   // Tag variant for selected items
   tagVariant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'error', 'warning', 'success'].includes(value)
+    validator: (value) => ['default', 'error', 'warning', 'success'].includes(value),
   },
 
   // Static label for static-label variant
   staticLabel: {
     type: String,
-    default: ''
+    default: '',
   },
 
   // Icon for with-icon variant
   icon: {
     type: String,
-    default: null
+    default: null,
   },
 
   // Show checkbox in options (for with-checkbox variant)
   showCheckbox: {
     type: Boolean,
-    default: true
+    default: true,
   },
 
   // Enable long text display mode
   longText: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   // Empty state message
   emptyStateMessage: {
     type: String,
-    default: 'Доступных опций для выбора нет'
+    default: 'Доступных опций для выбора нет',
   },
 
   // Readonly state
   readonly: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   // Disabled state
   disabled: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 // Events that this component can emit
@@ -234,9 +255,7 @@ const searchQuery = ref('')
 
 // Convert selected values to full objects for display
 const selectedItems = computed(() => {
-  return props.options.filter(option =>
-    props.modelValue.includes(option.value)
-  )
+  return props.options.filter((option) => props.modelValue.includes(option.value))
 })
 
 // Filter options based on search query
@@ -244,9 +263,7 @@ const filteredOptions = computed(() => {
   if (!searchQuery.value) return props.options
 
   const query = searchQuery.value.toLowerCase()
-  return props.options.filter(option =>
-    option.label.toLowerCase().includes(query)
-  )
+  return props.options.filter((option) => option.label.toLowerCase().includes(query))
 })
 
 // Check if an option is currently selected
@@ -263,7 +280,7 @@ const toggleOption = (option) => {
 
   if (isCurrentlySelected) {
     // Remove the option
-    const newValues = currentValues.filter(value => value !== option.value)
+    const newValues = currentValues.filter((value) => value !== option.value)
     emit('update:modelValue', newValues)
     emit('change', newValues)
   } else {
@@ -294,7 +311,7 @@ const getBadgeVariant = () => {
 const removeItem = (item) => {
   if (props.disabled || props.readonly) return
 
-  const newValues = props.modelValue.filter(value => value !== item.value)
+  const newValues = props.modelValue.filter((value) => value !== item.value)
   emit('update:modelValue', newValues)
   emit('change', newValues)
 }

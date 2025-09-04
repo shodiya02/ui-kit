@@ -29,4 +29,8 @@ coverage
 
 *.tsbuildinfo
 
-.claude
+.claude/*
+
+# Add this to your .gitignore
+settings.local.json
+.claude/settings.local.json

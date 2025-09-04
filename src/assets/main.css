@@ -4,7 +4,6 @@
 
 @layer base {
   :root {
-    /* Convert your Figma hex colors to HSL for shadcn-vue integration */
     --primary: 210 82% 45%;          /* #116ACC */
     --primary-foreground: 0 0% 100%;
 
@@ -23,15 +22,21 @@
     --warning: 48 89% 50%;           /* #EAB308 */
     --warning-foreground: 0 0% 13%;
 
-    /* Neutral colors */
     --background: 0 0% 100%;
     --foreground: 0 0% 13%;          /* #212121 */
     --muted: 240 9% 91%;             /* #E9E9ED */
     --muted-foreground: 220 13% 46%; /* #6B7280 */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    /* Update the default border color to match your specification */
+    --border: 218, 11%, 65%; /* #9CA3AF converted to HSL */
+    --input: 218, 11%, 65%;  /* Same for input borders */
     --ring: 210 82% 45%;
 
     --radius: 0.375rem;
+  }
+}
+
+@layer components {
+  .ui-multiselect {
+    --accent: 220 13% 96%;
   }
 }
