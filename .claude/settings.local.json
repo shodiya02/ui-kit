@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(/D:\\PersonalProjects\\vue-ui-kit\\src\\components/**)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
