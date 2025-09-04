@@ -20,7 +20,8 @@
               v-for="item in selectedItems"
               :key="item.value"
               :variant="getBadgeVariant()"
-              class="text-xs"
+              class="text-xs bg-primary text-white hover:bg-[#0F5BA3]"
+
             >
               {{ item.label }}
               <button

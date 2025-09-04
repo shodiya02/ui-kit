@@ -1,100 +1,56 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-8">
+  <div class="min-h-screen bg-background p-8">
     <div class="max-w-2xl mx-auto space-y-8">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-          Multi-Select Component Demo
-        </h1>
-        <p class="text-gray-600">
-          Testing your custom multi-select component with shadcn-vue foundation
-        </p>
+
+      <div class="space-y-4">
+        <h1 class="text-3xl font-bold text-foreground">Professional UI Kit</h1>
+        <p class="text-muted-foreground">Testing integrated theming system</p>
       </div>
 
-      <!-- Default Multi-Select -->
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700">
-          Default Multi-Select
-        </label>
+      <!-- shadcn-vue buttons using your brand colors automatically -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-semibold">shadcn-vue Buttons (Auto-themed)</h2>
+        <div class="flex gap-4 flex-wrap">
+          <Button>Primary Button</Button>
+          <Button variant="secondary">Secondary Button</Button>
+          <Button variant="destructive">Destructive Button</Button>
+          <Button variant="outline">Outline Button</Button>
+        </div>
+      </div>
+
+      <!-- Your MultiSelect with integrated theming -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-semibold">Multi-Select Component</h2>
         <MultiSelect
           v-model="selectedRegions"
           :options="regionOptions"
           placeholder="Выберите область"
-          @change="onSelectionChange"
         />
-        <p class="text-xs text-gray-500">
-          Selected: {{ selectedRegions.join(', ') || 'None' }}
-        </p>
-      </div>
 
-      <!-- Error State -->
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700">
-          Error State
-        </label>
         <MultiSelect
-          v-model="selectedWithError"
+          v-model="selectedError"
           :options="regionOptions"
-          placeholder="Выберите область"
+          placeholder="Error state"
           variant="error"
         />
-        <p class="text-xs text-red-600">
-          Количество не должно превышать 5т.
-        </p>
       </div>
 
-      <!-- Limited Selections -->
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700">
-          Maximum 3 Selections
-        </label>
-        <MultiSelect
-          v-model="selectedLimited"
-          :options="regionOptions"
-          :max-selections="3"
-          placeholder="Выберите до 3 областей"
-        />
-      </div>
-
-      <!-- Disabled State -->
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700">
-          Disabled State
-        </label>
-        <MultiSelect
-          :model-value="['tashkent']"
-          :options="regionOptions"
-          disabled
-          placeholder="Disabled component"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { Button } from '@/components/ui/button'
 import MultiSelect from './components/MultiSelect.vue'
 
-// Sample data matching your Figma design
 const regionOptions = [
   { value: 'tashkent', label: 'г. Ташкент' },
   { value: 'samarkand', label: 'г. Самарканд' },
   { value: 'navoi', label: 'г. Навоиган' },
-  { value: 'andijan', label: 'г. Андижан' },
-  { value: 'shahrisabz', label: 'г. Шахайбулак' },
-  { value: 'ikra', label: 'г. Икра' },
-  { value: 'kisto', label: 'г. Кисто' },
-  { value: 'nukus', label: 'г. Нукус' },
-  { value: 'dnisokchabloktrn', label: 'г. Днисокчаблоктрн' }
+  { value: 'andijan', label: 'г. Андижан' }
 ]
 
-// Reactive state for different component instances
 const selectedRegions = ref(['tashkent'])
-const selectedWithError = ref([])
-const selectedLimited = ref([])
-
-// Event handler example
-const onSelectionChange = (newValues) => {
-  console.log('Selection changed:', newValues)
-}
+const selectedError = ref([])
 </script>
