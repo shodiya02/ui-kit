@@ -1,167 +1,168 @@
 <template>
   <div class="space-y-2 relative">
-  <Popover v-model:open="open">
-    <!-- Trigger Button - This is what users click to open the dropdown -->
-    <PopoverTrigger as-child>
-      <Button
-        :aria-expanded="open"
-        :aria-label="ariaLabel"
+    <Popover v-model:open="open">
+      <!-- Trigger Button - This is what users click to open the dropdown -->
+      <PopoverTrigger as-child>
+        <Button
+          ref="triggerRef"
+          :aria-expanded="open"
+          :aria-label="ariaLabel"
+          :class="
+            cn(
+              'w-full justify-between min-h-[40px] h-auto px-3 py-2 text-left rounded-md transition-all duration-200',
+              'hover:bg-muted/50 hover:text-foreground',
+              triggerClasses,
+              label && (open || selectedItems.length > 0) ? 'pt-3 pb-2' : '',
+            )
+          "
+          role="combobox"
+          variant="outline"
+        >
+          <!-- Selected items display -->
+          <div class="flex flex-wrap gap-1 flex-1 text-left">
+            <template v-if="selectedItems.length > 0">
+              <!-- Show selected items as badges -->
+              <Badge
+                v-for="item in selectedItems"
+                :key="item.value"
+                :variant="getBadgeVariant()"
+                class="text-xs bg-primary text-white hover:bg-[#0F5BA3]"
+              >
+                {{ item.label }}
+                <button
+                  :aria-label="`Remove ${item.label}`"
+                  class="ml-1 hover:text-destructive focus:outline-none focus:text-destructive"
+                  @click.stop="removeItem(item)"
+                >
+                  <X class="h-3 w-3" />
+                </button>
+              </Badge>
+            </template>
+          </div>
+
+          <!-- Icon for with-icon variant -->
+          <component
+            :is="props.icon"
+            v-if="props.displayVariant === 'with-icon' && props.icon"
+            class="absolute left-3 h-4 w-4 text-muted-foreground"
+          />
+
+          <!-- Static label for static-label variant -->
+          <label
+            v-if="props.displayVariant === 'static-label' && props.staticLabel"
+            class="absolute top-2 left-3 text-xs text-muted-foreground bg-background px-1"
+          >
+            {{ props.staticLabel }}
+          </label>
+
+          <!-- In your trigger button, after the selected items but before chevron -->
+          <div class="flex items-center gap-2">
+            <!-- Clear all button -->
+            <button
+              v-if="selectedItems.length > 0 && !disabled && !readonly"
+              :aria-label="'Clear all selections'"
+              class="text-muted-foreground hover:text-foreground transition-colors"
+              @click.stop="clearAll"
+            >
+              <IconTrash class="h-5 w-5" />
+            </button>
+
+            <!-- Dropdown arrow -->
+            <IconChevronDown
+              :class="{ 'rotate-180': open }"
+              class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
+            />
+          </div>
+        </Button>
+      </PopoverTrigger>
+
+      <!-- Floating Label -->
+      <label
+        v-if="label"
         :class="
           cn(
-            'w-full justify-between min-h-[40px] h-auto px-3 py-2 text-left rounded-md transition-all duration-200',
-            'hover:bg-muted/50 hover:text-foreground',
-            triggerClasses,
-            label && (open || selectedItems.length > 0) ? 'pt-3 pb-2' : ''
-          )
-        "
-        role="combobox"
-        variant="outline"
-      >
-        <!-- Selected items display -->
-        <div class="flex flex-wrap gap-1 flex-1 text-left">
-          <template v-if="selectedItems.length > 0">
-            <!-- Show selected items as badges -->
-            <Badge
-              v-for="item in selectedItems"
-              :key="item.value"
-              :variant="getBadgeVariant()"
-              class="text-xs bg-primary text-white hover:bg-[#0F5BA3]"
-            >
-              {{ item.label }}
-              <button
-                :aria-label="`Remove ${item.label}`"
-                class="ml-1 hover:text-destructive focus:outline-none focus:text-destructive"
-                @click.stop="removeItem(item)"
-              >
-                <X class="h-3 w-3" />
-              </button>
-            </Badge>
-          </template>
-
-        </div>
-
-        <!-- Icon for with-icon variant -->
-        <component
-          :is="props.icon"
-          v-if="props.displayVariant === 'with-icon' && props.icon"
-          class="absolute left-3 h-4 w-4 text-muted-foreground"
-        />
-
-        <!-- Static label for static-label variant -->
-        <label
-          v-if="props.displayVariant === 'static-label' && props.staticLabel"
-          class="absolute top-2 left-3 text-xs text-muted-foreground bg-background px-1"
-        >
-          {{ props.staticLabel }}
-        </label>
-
-        <!-- In your trigger button, after the selected items but before chevron -->
-        <div class="flex items-center gap-2">
-          <!-- Clear all button -->
-          <button
-            v-if="selectedItems.length > 0 && !disabled && !readonly"
-            @click.stop="clearAll"
-            class="text-muted-foreground hover:text-foreground transition-colors"
-            :aria-label="'Clear all selections'"
-          >
-            <Trash2 class="h-4 w-4" />
-          </button>
-
-          <!-- Dropdown arrow -->
-          <ChevronDown
-            :class="{ 'rotate-180': open }"
-            class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
-          />
-        </div>
-      </Button>
-    </PopoverTrigger>
-
-    <!-- Floating Label -->
-    <label
-      v-if="label"
-      :class="cn(
             'absolute left-3 transition-all duration-200 pointer-events-none z-10',
             'text-muted-foreground bg-background px-1 hover:bg-muted/50',
             {
               '-top-4 text-xs': open || selectedItems.length > 0,
-              'top-1/3 -translate-y-1/2 text-sm': !open && selectedItems.length === 0
-            }
-          )"
-    >
-      {{ label }}
-    </label>
+              'top-1/3 -translate-y-1/2 text-sm': !open && selectedItems.length === 0,
+            },
+          )
+        "
+      >
+        {{ label }}
+      </label>
 
-    <!-- Dropdown Content -->
-    <PopoverContent
-      align="start"
-      class="ui-multiselect p-0 bg-background border border-border shadow-lg"
-      :style="{ width: 'var(--radix-popper-anchor-width)' }"
-    >
-      <Command>
-        <!-- Search input -->
-        <CommandInput v-model:value="searchQuery" :placeholder="searchPlaceholder" />
-
-        <!-- No results message or empty state -->
-        <CommandEmpty>
-          <div
-            v-if="props.displayVariant === 'empty-state'"
-            class="flex flex-col items-center justify-center py-8 text-center"
-          >
-            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-              <span class="text-gray-400 text-xl">!</span>
-            </div>
-            <p class="text-sm text-muted-foreground">{{ props.emptyStateMessage }}</p>
+      <!-- Dropdown Content -->
+      <PopoverContent
+        :side-offset="4"
+        :style="popoverStyle"
+        align="start"
+        class="ui-multiselect p-0 bg-background border border-border shadow-lg w-full"
+      >
+        <Command>
+          <!-- Search input -->
+          <div class="p-2.5">
+            <Input v-model:value="searchQuery" :placeholder="searchPlaceholder" />
           </div>
-          <span v-else>{{ emptyMessage }}</span>
-        </CommandEmpty>
-
-        <!-- Options list -->
-        <CommandGroup class="max-h-64 overflow-auto">
-          <CommandItem
-            v-for="option in filteredOptions"
-            :key="option.value"
-            :value="option.value"
-            class="flex items-center space-x-2 cursor-pointer"
-            @select="() => toggleOption(option)"
-          >
-            <!-- Checkbox to show selection state (conditional) -->
-            <Checkbox
-              v-if="props.showCheckbox"
-              :checked="isSelected(option)"
-              class="pointer-events-none"
-            />
-            <!-- Radio button style for with-checkbox variant when showCheckbox is false -->
+          <!-- No results message or empty state -->
+          <CommandEmpty>
             <div
-              v-else-if="props.displayVariant === 'with-checkbox'"
-              :class="{ 'bg-blue-500 border-blue-500': isSelected(option) }"
-              class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center"
+              v-if="props.displayVariant === 'empty-state'"
+              class="flex flex-col items-center justify-center py-8 text-center"
             >
-              <div v-if="isSelected(option)" class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                <span class="text-gray-400 text-xl">!</span>
+              </div>
+              <p class="text-sm text-muted-foreground">{{ props.emptyStateMessage }}</p>
             </div>
-            <span :class="{ 'text-sm': props.longText }" class="flex-1">{{ option.label }}</span>
-          </CommandItem>
-        </CommandGroup>
-      </Command>
-    </PopoverContent>
-  </Popover>
+            <span v-else>{{ emptyMessage }}</span>
+          </CommandEmpty>
+
+          <!-- Options list -->
+          <CommandGroup class="max-h-64 overflow-auto">
+            <CommandItem
+              v-for="option in filteredOptions"
+              :key="option.value"
+              :value="option.value"
+              class="flex items-center space-x-2 cursor-pointer hover:bg-blue-500"
+              @select="() => toggleOption(option)"
+            >
+              <!-- Checkbox to show selection state (conditional) -->
+              <Checkbox
+                v-if="props.showCheckbox"
+                :checked="isSelected(option)"
+                class="pointer-events-none"
+              />
+              <!-- Radio button style for with-checkbox variant when showCheckbox is false -->
+              <div
+                v-else-if="props.displayVariant === 'with-checkbox'"
+                :class="{ 'bg-blue-500 border-blue-500': isSelected(option) }"
+                class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-blue-500"
+              >
+                <div v-if="isSelected(option)" class="w-2 h-2 rounded-full bg-white"></div>
+              </div>
+              <span :class="{ 'text-sm': props.longText }" class="flex-1">{{ option.label }}</span>
+            </CommandItem>
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Checkbox } from '@/components/ui/checkbox'
-import { ChevronDown, X,Trash2  } from 'lucide-vue-next'
+import { X } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconChevronDown from '@/components/icons/IconChevronDown.vue'
+import { Input } from '@/components/ui/input/index.js'
 
 // Component Props - These control how the component behaves
 const props = defineProps({
@@ -276,23 +277,49 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: ''
+    default: '',
   },
 })
 
 // Events that this component can emit
 const emit = defineEmits(['update:modelValue', 'change'])
 
+const triggerRef = ref(null)
+const triggerWidth = ref(0)
 
-const clearAll = () => {
-  if (props.disabled || props.readonly) return
-
-  emit('update:modelValue', [])
-  emit('change', [])
-}
 // Component state
 const open = ref(false)
 const searchQuery = ref('')
+
+// Track trigger button width
+const updateTriggerWidth = () => {
+  if (triggerRef.value?.$el) {
+    triggerWidth.value = triggerRef.value.$el.offsetWidth
+  }
+}
+
+// Set up width tracking
+onMounted(() => {
+  updateTriggerWidth()
+  window.addEventListener('resize', updateTriggerWidth)
+})
+
+// Watch for open state to update width
+watch(open, async (isOpen) => {
+  if (isOpen) {
+    await nextTick()
+    updateTriggerWidth()
+  }
+})
+
+// Computed style for popover width
+const popoverStyle = computed(() => {
+  return {
+    width: `${triggerWidth.value}px`,
+    minWidth: `${triggerWidth.value}px`,
+    maxWidth: `${triggerWidth.value}px`,
+  }
+})
 
 // Convert selected values to full objects for display
 const selectedItems = computed(() => {
@@ -355,6 +382,14 @@ const removeItem = (item) => {
   const newValues = props.modelValue.filter((value) => value !== item.value)
   emit('update:modelValue', newValues)
   emit('change', newValues)
+}
+
+// Clear all selections
+const clearAll = () => {
+  if (props.disabled || props.readonly) return
+
+  emit('update:modelValue', [])
+  emit('change', [])
 }
 
 // Computed classes for the trigger based on variant
@@ -422,5 +457,10 @@ watch(open, (isOpen) => {
   if (!isOpen) {
     searchQuery.value = ''
   }
+})
+
+// Clean up event listener
+onUnmounted(() => {
+  window.removeEventListener('resize', updateTriggerWidth)
 })
 </script>
