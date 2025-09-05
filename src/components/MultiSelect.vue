@@ -1,4 +1,5 @@
 <template>
+  <div class="space-y-2 relative">
   <Popover v-model:open="open">
     <!-- Trigger Button - This is what users click to open the dropdown -->
     <PopoverTrigger as-child>
@@ -10,6 +11,7 @@
             'w-full justify-between min-h-[40px] h-auto px-3 py-2 text-left rounded-md transition-all duration-200',
             'hover:bg-muted/50 hover:text-foreground',
             triggerClasses,
+            label && (open || selectedItems.length > 0) ? 'pt-3 pb-2' : ''
           )
         "
         role="combobox"
@@ -35,9 +37,7 @@
               </button>
             </Badge>
           </template>
-          <span v-else class="text-muted-foreground">
-            {{ placeholder }}
-          </span>
+
         </div>
 
         <!-- Icon for with-icon variant -->
@@ -55,18 +55,47 @@
           {{ props.staticLabel }}
         </label>
 
-        <!-- Dropdown arrow -->
-        <ChevronDown
-          :class="{ 'rotate-180': open }"
-          class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
-        />
+        <!-- In your trigger button, after the selected items but before chevron -->
+        <div class="flex items-center gap-2">
+          <!-- Clear all button -->
+          <button
+            v-if="selectedItems.length > 0 && !disabled && !readonly"
+            @click.stop="clearAll"
+            class="text-muted-foreground hover:text-foreground transition-colors"
+            :aria-label="'Clear all selections'"
+          >
+            <Trash2 class="h-4 w-4" />
+          </button>
+
+          <!-- Dropdown arrow -->
+          <ChevronDown
+            :class="{ 'rotate-180': open }"
+            class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
+          />
+        </div>
       </Button>
     </PopoverTrigger>
+
+    <!-- Floating Label -->
+    <label
+      v-if="label"
+      :class="cn(
+            'absolute left-3 transition-all duration-200 pointer-events-none z-10',
+            'text-muted-foreground bg-background px-1 hover:bg-muted/50',
+            {
+              '-top-4 text-xs': open || selectedItems.length > 0,
+              'top-1/3 -translate-y-1/2 text-sm': !open && selectedItems.length === 0
+            }
+          )"
+    >
+      {{ label }}
+    </label>
 
     <!-- Dropdown Content -->
     <PopoverContent
       align="start"
-      class="ui-multiselect w-full p-0 bg-background border border-border shadow-lg"
+      class="ui-multiselect p-0 bg-background border border-border shadow-lg"
+      :style="{ width: 'var(--radix-popper-anchor-width)' }"
     >
       <Command>
         <!-- Search input -->
@@ -115,6 +144,7 @@
       </Command>
     </PopoverContent>
   </Popover>
+  </div>
 </template>
 
 <script setup>
@@ -130,7 +160,7 @@ import {
   CommandItem,
 } from '@/components/ui/command'
 import { Checkbox } from '@/components/ui/checkbox'
-import { ChevronDown, X } from 'lucide-vue-next'
+import { ChevronDown, X,Trash2  } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
 // Component Props - These control how the component behaves
@@ -244,11 +274,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  label: {
+    type: String,
+    default: ''
+  },
 })
 
 // Events that this component can emit
 const emit = defineEmits(['update:modelValue', 'change'])
 
+
+const clearAll = () => {
+  if (props.disabled || props.readonly) return
+
+  emit('update:modelValue', [])
+  emit('change', [])
+}
 // Component state
 const open = ref(false)
 const searchQuery = ref('')

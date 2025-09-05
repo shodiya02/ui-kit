@@ -13,7 +13,7 @@
           <MultiSelect
             v-model="selected1"
             :options="regionOptions"
-            placeholder="Выберите область"
+            label="Выберите область"
             display-variant="with-checkbox"
           />
         </div>
@@ -23,7 +23,6 @@
           <MultiSelect
             v-model="selected2"
             :options="regionOptions"
-            placeholder="Выберите область"
             variant="error"
             display-variant="with-checkbox"
           />
@@ -35,7 +34,6 @@
           <MultiSelect
             v-model="selected3"
             :options="regionOptions"
-            placeholder="Выберите область"
             variant="success"
             display-variant="with-checkbox"
           />
