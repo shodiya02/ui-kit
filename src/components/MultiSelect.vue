@@ -146,16 +146,16 @@ import IconTrash from '@/components/icons/IconTrash.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { Input } from '@/components/ui/input/index.js'
 
+const modelValue = defineModel({
+  type: Array,
+  default: () => [],
+})
+
 const props = defineProps({
   options: {
     type: Array,
     required: true,
     validator: (options) => options.every((opt) => opt.value && opt.label),
-  },
-
-  modelValue: {
-    type: Array,
-    default: () => [],
   },
 
   placeholder: {
@@ -246,7 +246,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const emit = defineEmits(['change'])
 
 const triggerRef = ref(null)
 const triggerWidth = ref(0)
@@ -281,7 +281,7 @@ const popoverStyle = computed(() => {
 })
 
 const selectedItems = computed(() => {
-  return props.options.filter((option) => props.modelValue.includes(option.value))
+  return props.options.filter((option) => modelValue.value.includes(option.value))
 })
 
 const filteredOptions = computed(() => {
@@ -292,23 +292,23 @@ const filteredOptions = computed(() => {
 })
 
 const isSelected = (option) => {
-  return props.modelValue.includes(option.value)
+  return modelValue.value.includes(option.value)
 }
 
 const toggleOption = (option) => {
   if (props.disabled || props.readonly) return
 
-  const currentValues = [...props.modelValue]
+  const currentValues = [...modelValue.value]
   const isCurrentlySelected = currentValues.includes(option.value)
 
   if (isCurrentlySelected) {
     const newValues = currentValues.filter((value) => value !== option.value)
-    emit('update:modelValue', newValues)
+    modelValue.value = newValues
     emit('change', newValues)
   } else {
     if (!props.maxSelections || currentValues.length < props.maxSelections) {
       const newValues = [...currentValues, option.value]
-      emit('update:modelValue', newValues)
+      modelValue.value = newValues
       emit('change', newValues)
     }
   }
@@ -330,15 +330,15 @@ const getBadgeVariant = () => {
 const removeItem = (item) => {
   if (props.disabled || props.readonly) return
 
-  const newValues = props.modelValue.filter((value) => value !== item.value)
-  emit('update:modelValue', newValues)
+  const newValues = modelValue.value.filter((value) => value !== item.value)
+  modelValue.value = newValues
   emit('change', newValues)
 }
 
 const clearAll = () => {
   if (props.disabled || props.readonly) return
 
-  emit('update:modelValue', [])
+  modelValue.value = []
   emit('change', [])
 }
 
