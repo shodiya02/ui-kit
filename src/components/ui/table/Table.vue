@@ -6,6 +6,7 @@ const props = defineProps({
   variant: { type: String, default: 'default' }, // default, fixed, scrollable
   height: { type: String, default: 'auto' },
   title: { type: String, required: false },
+  horizontalScroll: { type: Boolean, default: false }, // Enable horizontal scroll for fixed columns
 });
 
 const getWrapperClasses = () => {
@@ -22,25 +23,54 @@ const getWrapperClasses = () => {
 };
 
 const getTableClasses = () => {
-  const baseClasses = 'w-full caption-bottom text-sm';
+  const baseClasses = 'caption-bottom text-sm';
 
   switch (props.variant) {
     case 'fixed':
     case 'scrollable':
       return cn(baseClasses, 'border-collapse');
     default:
-      return cn(baseClasses);
+      return cn(baseClasses, 'w-full');
   }
 };
 
-const getScrollContainerStyle = () => {
-  if (props.height !== 'auto' && (props.variant === 'scrollable' || props.variant === 'fixed')) {
-    return {
-      height: props.height,
-      maxHeight: props.height
-    };
+const getTableStyle = () => {
+  const style = {};
+
+  // Set minimum width for horizontal scroll when using fixed columns
+  if (props.horizontalScroll) {
+    style.minWidth = '100%';
+    style.width = 'max-content';
+  } else {
+    style.width = '100%';
   }
-  return {};
+
+  return style;
+};
+
+const getScrollContainerClasses = () => {
+  const baseClasses = '';
+
+  if (props.variant === 'scrollable' || props.variant === 'fixed') {
+    return cn(baseClasses, 'overflow-auto');
+  }
+
+  if (props.horizontalScroll) {
+    return cn(baseClasses, 'overflow-x-auto');
+  }
+
+  return baseClasses;
+};
+
+const getScrollContainerStyle = () => {
+  const style = {};
+
+  if (props.height !== 'auto' && (props.variant === 'scrollable' || props.variant === 'fixed')) {
+    style.height = props.height;
+    style.maxHeight = props.height;
+  }
+
+  return style;
 };
 </script>
 
@@ -53,10 +83,13 @@ const getScrollContainerStyle = () => {
 
     <!-- Table Container -->
     <div
-      :class="(variant === 'scrollable' || variant === 'fixed') ? 'overflow-auto' : ''"
+      :class="getScrollContainerClasses()"
       :style="getScrollContainerStyle()"
     >
-      <table :class="cn(getTableClasses(), props.class)">
+      <table
+        :class="cn(getTableClasses(), props.class)"
+        :style="getTableStyle()"
+      >
         <slot />
       </table>
     </div>

@@ -193,10 +193,61 @@
         </TableBody>
       </Table>
     </div>
+
+    <!-- Fixed Columns Table -->
+    <div>
+      <h3 class="text-lg font-semibold mb-4">Fixed Columns Table (Left & Right)</h3>
+      <Table variant="scrollable" height="400px" horizontal-scroll>
+        <TableHeader sticky>
+          <TableRow>
+            <TableHead fixed="left" fixed-offset="0px" class="min-w-[60px] w-[60px]">ID</TableHead>
+            <TableHead fixed="left" fixed-offset="60px" class="min-w-[120px] w-[120px]">Company</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Q1 Sales</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Q2 Sales</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Q3 Sales</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Q4 Sales</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Marketing</TableHead>
+            <TableHead class="min-w-[120px] w-[120px]">Operations</TableHead>
+            <TableHead fixed="right" fixed-offset="80px" align="right" class="min-w-[100px] w-[100px]">Revenue</TableHead>
+            <TableHead fixed="right" fixed-offset="0px" align="center" class="min-w-[80px] w-[80px]">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <template v-for="company in dynamicTableData" :key="company.id">
+            <TableRow>
+              <TableCell fixed="left" fixed-offset="0px" class="min-w-[60px] w-[60px]">{{ company.id }}</TableCell>
+              <TableCell fixed="left" fixed-offset="60px" class="min-w-[120px] w-[120px] font-medium">{{ company.name }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.q1Sales.toLocaleString() }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.q2Sales.toLocaleString() }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.q3Sales.toLocaleString() }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.q4Sales.toLocaleString() }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.marketing.toLocaleString() }}</TableCell>
+              <TableCell class="min-w-[120px] w-[120px]">${{ company.operations.toLocaleString() }}</TableCell>
+              <TableCell fixed="right" fixed-offset="80px" align="right" class="min-w-[100px] w-[100px] font-semibold">
+                ${{ company.totalRevenue.toLocaleString() }}
+              </TableCell>
+              <TableCell fixed="right" fixed-offset="0px" align="center" class="min-w-[80px] w-[80px]">
+                <span 
+                  :class="[
+                    'px-2 py-1 rounded-full text-xs font-medium',
+                    company.status === 'Active' ? 'bg-green-100 text-green-800' :
+                    company.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800'
+                  ]"
+                >
+                  {{ company.status }}
+                </span>
+              </TableCell>
+            </TableRow>
+          </template>
+        </TableBody>
+      </Table>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import {
   Table,
   TableHeader,
@@ -205,4 +256,41 @@ import {
   TableRow,
   TableCell,
 } from '@/components/ui/table'
+
+// Dynamic table data
+const companies = [
+  'TechCorp Solutions', 'Global Innovations', 'DataFlow Systems', 'CloudMax Enterprise',
+  'InnovateTech', 'FutureSoft', 'NextGen Analytics', 'SmartBiz Solutions',
+  'DigitalEdge', 'ProActive Systems', 'MetaData Inc', 'CyberLink Technologies',
+  'WebForce Dynamics', 'AI Ventures', 'BlockChain Innovations', 'QuantumLeap',
+  'ByteStream Corp', 'CodeCrafters', 'TechVision Group', 'DataMine Solutions'
+]
+
+const statuses = ['Active', 'Pending', 'Inactive']
+
+const generateRandomData = (id) => {
+  const q1 = Math.floor(Math.random() * 500000) + 100000
+  const q2 = Math.floor(Math.random() * 600000) + 150000
+  const q3 = Math.floor(Math.random() * 550000) + 120000
+  const q4 = Math.floor(Math.random() * 700000) + 200000
+  const marketing = Math.floor(Math.random() * 100000) + 20000
+  const operations = Math.floor(Math.random() * 80000) + 15000
+  
+  return {
+    id,
+    name: companies[id - 1] || `Company ${id}`,
+    q1Sales: q1,
+    q2Sales: q2,
+    q3Sales: q3,
+    q4Sales: q4,
+    marketing,
+    operations,
+    totalRevenue: q1 + q2 + q3 + q4,
+    status: statuses[Math.floor(Math.random() * statuses.length)]
+  }
+}
+
+const dynamicTableData = ref(
+  Array.from({ length: 25 }, (_, index) => generateRandomData(index + 1))
+)
 </script>
