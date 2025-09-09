@@ -63,7 +63,7 @@
 
             <IconChevronDown
               :class="{ 'rotate-180': open }"
-              class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
+              class="h-4 w-4 shrink-0  transition-transform duration-200"
             />
           </div>
         </Button>
