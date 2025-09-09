@@ -10,7 +10,7 @@
           :class="
             cn(
               'w-full justify-between min-h-[40px] h-auto px-3 py-2 text-left rounded-md transition-all duration-200',
-              'hover:bg-muted/50 hover:text-foreground',
+              'hover:bg-muted/50',
               triggerClasses,
               label && (open || selectedItems.length > 0) ? 'pt-3 pb-2' : '',
             )
@@ -24,7 +24,7 @@
                 v-for="item in selectedItems"
                 :key="item.value"
                 :variant="getBadgeVariant()"
-                class="text-xs bg-primary text-white hover:bg-[#0F5BA3]"
+                class="text-sm bg-primary text-white hover:bg-[#0F5BA3]"
               >
                 {{ item.label }}
                 <button
@@ -55,9 +55,10 @@
             <button
               v-if="selectedItems.length > 0 && !disabled && !readonly"
               :aria-label="'Clear all selections'"
+              class="text-muted-foreground hover:text-foreground"
               @click.stop="clearAll"
             >
-              <IconTrash class="h-5 w-5" />
+              <IconTrash class="!h-5 !w-5" />
             </button>
 
             <IconChevronDown
@@ -113,7 +114,7 @@
               v-for="option in filteredOptions"
               :key="option.value"
               :value="option.value"
-              class="flex items-center space-x-2 cursor-pointer hover:bg-primary/20 border-t p-4"
+              class="flex items-center  cursor-pointer hover:bg-primary/20 border-t p-3"
               @select="() => toggleOption(option)"
             >
               <Checkbox

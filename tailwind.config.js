@@ -3,6 +3,16 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        'ubuntu': ['Ubuntu', 'sans-serif'],
+        'sans': ['Ubuntu', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
+      },
+      fontWeight: {
+        'light': 300,
+        'normal': 400,
+        'medium': 500,
+        'bold': 700,
+      },
       colors: {
         // Core UI Kit Colors - mapped to your Figma palette
         primary: {
