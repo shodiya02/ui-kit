@@ -18,10 +18,8 @@
           role="combobox"
           variant="outline"
         >
-          <!-- Selected items display -->
           <div class="flex flex-wrap gap-1 flex-1 text-left">
             <template v-if="selectedItems.length > 0">
-              <!-- Show selected items as badges -->
               <Badge
                 v-for="item in selectedItems"
                 :key="item.value"
@@ -40,14 +38,12 @@
             </template>
           </div>
 
-          <!-- Icon for with-icon variant -->
           <component
             :is="props.icon"
             v-if="props.displayVariant === 'with-icon' && props.icon"
             class="absolute left-3 h-4 w-4 text-muted-foreground"
           />
 
-          <!-- Static label for static-label variant -->
           <label
             v-if="props.displayVariant === 'static-label' && props.staticLabel"
             class="absolute top-2 left-3 text-xs text-muted-foreground bg-background px-1"
@@ -55,19 +51,15 @@
             {{ props.staticLabel }}
           </label>
 
-          <!-- In your trigger button, after the selected items but before chevron -->
           <div class="flex items-center gap-2">
-            <!-- Clear all button -->
             <button
               v-if="selectedItems.length > 0 && !disabled && !readonly"
               :aria-label="'Clear all selections'"
-              class="text-muted-foreground hover:text-foreground transition-colors"
               @click.stop="clearAll"
             >
               <IconTrash class="h-5 w-5" />
             </button>
 
-            <!-- Dropdown arrow -->
             <IconChevronDown
               :class="{ 'rotate-180': open }"
               class="h-4 w-4 shrink-0 opacity-50 transition-transform duration-200"
@@ -82,7 +74,7 @@
         :class="
           cn(
             'absolute left-3 transition-all duration-200 pointer-events-none z-10',
-            'text-muted-foreground bg-background px-1 hover:bg-muted/50',
+            'ui-text-light bg-background px-1 hover:bg-muted/50',
             {
               '-top-4 text-xs': open || selectedItems.length > 0,
               'top-1/3 -translate-y-1/2 text-sm': !open && selectedItems.length === 0,
@@ -93,7 +85,6 @@
         {{ label }}
       </label>
 
-      <!-- Dropdown Content -->
       <PopoverContent
         :side-offset="4"
         :style="popoverStyle"
@@ -101,11 +92,9 @@
         class="ui-multiselect p-0 bg-background border border-border shadow-lg w-full"
       >
         <Command>
-          <!-- Search input -->
           <div class="p-2.5">
-            <Input v-model:value="searchQuery" :placeholder="searchPlaceholder" />
+            <Input  v-model:value="searchQuery" :placeholder="searchPlaceholder" />
           </div>
-          <!-- No results message or empty state -->
           <CommandEmpty>
             <div
               v-if="props.displayVariant === 'empty-state'"
@@ -119,29 +108,21 @@
             <span v-else>{{ emptyMessage }}</span>
           </CommandEmpty>
 
-          <!-- Options list -->
-          <CommandGroup class="max-h-64 overflow-auto">
+          <CommandGroup class="max-h-64 overflow-auto p-0">
             <CommandItem
               v-for="option in filteredOptions"
               :key="option.value"
               :value="option.value"
-              class="flex items-center space-x-2 cursor-pointer hover:bg-blue-500"
+              class="flex items-center space-x-2 cursor-pointer hover:bg-primary/20 border-t p-4"
               @select="() => toggleOption(option)"
             >
-              <!-- Checkbox to show selection state (conditional) -->
               <Checkbox
                 v-if="props.showCheckbox"
-                :checked="isSelected(option)"
+                :checked="!!isSelected(option)"
+                :model-value="!!isSelected(option)"
                 class="pointer-events-none"
+                @update:checked="() => toggleOption(option)"
               />
-              <!-- Radio button style for with-checkbox variant when showCheckbox is false -->
-              <div
-                v-else-if="props.displayVariant === 'with-checkbox'"
-                :class="{ 'bg-blue-500 border-blue-500': isSelected(option) }"
-                class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-blue-500"
-              >
-                <div v-if="isSelected(option)" class="w-2 h-2 rounded-full bg-white"></div>
-              </div>
               <span :class="{ 'text-sm': props.longText }" class="flex-1">{{ option.label }}</span>
             </CommandItem>
           </CommandGroup>
@@ -164,46 +145,38 @@ import IconTrash from '@/components/icons/IconTrash.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { Input } from '@/components/ui/input/index.js'
 
-// Component Props - These control how the component behaves
 const props = defineProps({
-  // The list of available options
   options: {
     type: Array,
     required: true,
     validator: (options) => options.every((opt) => opt.value && opt.label),
   },
 
-  // Currently selected values
   modelValue: {
     type: Array,
     default: () => [],
   },
 
-  // Placeholder text when nothing is selected
   placeholder: {
     type: String,
     default: 'Select options...',
   },
 
-  // Search placeholder text
   searchPlaceholder: {
     type: String,
-    default: 'Search options...',
+    default: 'Введите название города...',
   },
 
-  // Message when no options match search
   emptyMessage: {
     type: String,
     default: 'No options found.',
   },
 
-  // Maximum number of selections allowed
   maxSelections: {
     type: Number,
     default: null,
   },
 
-  // Component variant for different states
   variant: {
     type: String,
     default: 'default',
@@ -211,7 +184,6 @@ const props = defineProps({
       ['default', 'error', 'success', 'warning', 'focus', 'hover', 'selected'].includes(value),
   },
 
-  // Display variant for different layouts
   displayVariant: {
     type: String,
     default: 'default',
@@ -227,50 +199,42 @@ const props = defineProps({
       ].includes(value),
   },
 
-  // Tag variant for selected items
   tagVariant: {
     type: String,
     default: 'default',
     validator: (value) => ['default', 'error', 'warning', 'success'].includes(value),
   },
 
-  // Static label for static-label variant
   staticLabel: {
     type: String,
     default: '',
   },
 
-  // Icon for with-icon variant
   icon: {
     type: String,
     default: null,
   },
 
-  // Show checkbox in options (for with-checkbox variant)
   showCheckbox: {
     type: Boolean,
     default: true,
   },
 
-  // Enable long text display mode
   longText: {
     type: Boolean,
     default: false,
   },
 
-  // Empty state message
   emptyStateMessage: {
     type: String,
     default: 'Доступных опций для выбора нет',
   },
 
-  // Readonly state
   readonly: {
     type: Boolean,
     default: false,
   },
 
-  // Disabled state
   disabled: {
     type: Boolean,
     default: false,
@@ -281,30 +245,25 @@ const props = defineProps({
   },
 })
 
-// Events that this component can emit
 const emit = defineEmits(['update:modelValue', 'change'])
 
 const triggerRef = ref(null)
 const triggerWidth = ref(0)
 
-// Component state
 const open = ref(false)
 const searchQuery = ref('')
 
-// Track trigger button width
 const updateTriggerWidth = () => {
   if (triggerRef.value?.$el) {
     triggerWidth.value = triggerRef.value.$el.offsetWidth
   }
 }
 
-// Set up width tracking
 onMounted(() => {
   updateTriggerWidth()
   window.addEventListener('resize', updateTriggerWidth)
 })
 
-// Watch for open state to update width
 watch(open, async (isOpen) => {
   if (isOpen) {
     await nextTick()
@@ -312,7 +271,6 @@ watch(open, async (isOpen) => {
   }
 })
 
-// Computed style for popover width
 const popoverStyle = computed(() => {
   return {
     width: `${triggerWidth.value}px`,
@@ -321,12 +279,10 @@ const popoverStyle = computed(() => {
   }
 })
 
-// Convert selected values to full objects for display
 const selectedItems = computed(() => {
   return props.options.filter((option) => props.modelValue.includes(option.value))
 })
 
-// Filter options based on search query
 const filteredOptions = computed(() => {
   if (!searchQuery.value) return props.options
 
@@ -334,12 +290,10 @@ const filteredOptions = computed(() => {
   return props.options.filter((option) => option.label.toLowerCase().includes(query))
 })
 
-// Check if an option is currently selected
 const isSelected = (option) => {
   return props.modelValue.includes(option.value)
 }
 
-// Toggle selection of an option
 const toggleOption = (option) => {
   if (props.disabled || props.readonly) return
 
@@ -347,12 +301,10 @@ const toggleOption = (option) => {
   const isCurrentlySelected = currentValues.includes(option.value)
 
   if (isCurrentlySelected) {
-    // Remove the option
     const newValues = currentValues.filter((value) => value !== option.value)
     emit('update:modelValue', newValues)
     emit('change', newValues)
   } else {
-    // Add the option (if under max limit)
     if (!props.maxSelections || currentValues.length < props.maxSelections) {
       const newValues = [...currentValues, option.value]
       emit('update:modelValue', newValues)
@@ -361,7 +313,6 @@ const toggleOption = (option) => {
   }
 }
 
-// Get badge variant based on tagVariant prop
 const getBadgeVariant = () => {
   switch (props.tagVariant) {
     case 'error':
@@ -375,7 +326,6 @@ const getBadgeVariant = () => {
   }
 }
 
-// Remove a selected item
 const removeItem = (item) => {
   if (props.disabled || props.readonly) return
 
@@ -384,7 +334,6 @@ const removeItem = (item) => {
   emit('change', newValues)
 }
 
-// Clear all selections
 const clearAll = () => {
   if (props.disabled || props.readonly) return
 
@@ -392,11 +341,9 @@ const clearAll = () => {
   emit('change', [])
 }
 
-// Computed classes for the trigger based on variant
 const triggerClasses = computed(() => {
   const classes = []
 
-  // State-based styling
   switch (props.variant) {
     case 'error':
       classes.push('border-destructive focus-visible:ring-destructive text-destructive')
@@ -420,7 +367,6 @@ const triggerClasses = computed(() => {
       classes.push('border-input')
   }
 
-  // Display variant styling
   switch (props.displayVariant) {
     case 'static-label':
       classes.push('pt-6 relative')
@@ -444,7 +390,6 @@ const triggerClasses = computed(() => {
   return classes.join(' ')
 })
 
-// Accessibility label
 const ariaLabel = computed(() => {
   const count = selectedItems.value.length
   if (count === 0) return props.placeholder
@@ -452,14 +397,12 @@ const ariaLabel = computed(() => {
   return `${count} options selected`
 })
 
-// Clear search when dropdown closes
 watch(open, (isOpen) => {
   if (!isOpen) {
     searchQuery.value = ''
   }
 })
 
-// Clean up event listener
 onUnmounted(() => {
   window.removeEventListener('resize', updateTriggerWidth)
 })

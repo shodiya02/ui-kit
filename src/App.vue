@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background p-8">
+  <div class="min-h-screen  p-8">
     <div class="max-w-2xl mx-auto space-y-8">
 
       <div class="space-y-4">
