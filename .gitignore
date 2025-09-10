@@ -34,3 +34,5 @@ coverage
 # Add this to your .gitignore
 settings.local.json
 .claude/settings.local.json
+*storybook.log
+storybook-static

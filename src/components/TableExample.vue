@@ -1,34 +1,5 @@
 <template>
   <div class="space-y-8 p-6">
-    <!-- Default Table -->
-    <div>
-      <h3 class="text-lg font-semibold mb-4">Default Table</h3>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>№</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead align="right">Amount</TableHead>
-            <TableHead align="center">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>1</TableCell>
-            <TableCell>John Doe</TableCell>
-            <TableCell align="right">$250.00</TableCell>
-            <TableCell align="center">Active</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>2</TableCell>
-            <TableCell>Jane Smith</TableCell>
-            <TableCell align="right">$150.00</TableCell>
-            <TableCell align="center">Inactive</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
-
     <!-- Fixed Header Table with Title -->
     <div>
       <h3 class="text-lg font-semibold mb-4">Fixed Header Table with Title</h3>
@@ -197,7 +168,7 @@
     <!-- Fixed Columns Table -->
     <div>
       <h3 class="text-lg font-semibold mb-4">Fixed Columns Table (Left & Right)</h3>
-      <Table variant="scrollable" height="400px" horizontal-scroll>
+      <Table variant="scrollable" height="600px" horizontal-scroll>
         <TableHeader sticky>
           <TableRow>
             <TableHead fixed="left" fixed-offset="0px" class="min-w-[60px] w-[60px]">ID</TableHead>
@@ -227,7 +198,7 @@
                 ${{ company.totalRevenue.toLocaleString() }}
               </TableCell>
               <TableCell fixed="right" fixed-offset="0px" align="center" class="min-w-[80px] w-[80px]">
-                <span 
+                <span
                   :class="[
                     'px-2 py-1 rounded-full text-xs font-medium',
                     company.status === 'Active' ? 'bg-green-100 text-green-800' :
@@ -275,7 +246,7 @@ const generateRandomData = (id) => {
   const q4 = Math.floor(Math.random() * 700000) + 200000
   const marketing = Math.floor(Math.random() * 100000) + 20000
   const operations = Math.floor(Math.random() * 80000) + 15000
-  
+
   return {
     id,
     name: companies[id - 1] || `Company ${id}`,
@@ -291,6 +262,6 @@ const generateRandomData = (id) => {
 }
 
 const dynamicTableData = ref(
-  Array.from({ length: 25 }, (_, index) => generateRandomData(index + 1))
+  Array.from({ length: 10 }, (_, index) => generateRandomData(index + 1))
 )
 </script>

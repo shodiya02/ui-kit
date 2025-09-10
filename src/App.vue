@@ -4,6 +4,8 @@
       <div class="space-y-4">
         <h1 class="text-2xl font-bold text-foreground">MultiSelect - Figma Aligned</h1>
       </div>
+
+      <TooltipExample/>
       <TableExample />
 
       <!-- Test different variants -->
@@ -25,6 +27,7 @@
 import { ref } from 'vue'
 import MultiSelect from './components/MultiSelect.vue'
 import TableExample from '@/components/TableExample.vue'
+import TooltipExample from '@/components/TooltipExample.vue'
 
 const regionOptions = [
   { value: 'samarkand', label: 'г. Самарканд' },
