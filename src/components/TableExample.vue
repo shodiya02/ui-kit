@@ -1,267 +1,241 @@
 <template>
   <div class="space-y-8 p-6">
-    <!-- Fixed Header Table with Title -->
+    <!-- Fixed Columns & Header Table Example -->
     <div>
-      <h3 class="text-lg font-semibold mb-4">Fixed Header Table with Title</h3>
-      <Table variant="fixed" title="Таблица - Fixed" height="300px">
-        <TableHeader sticky>
+      <h3 class="text-lg font-semibold mb-4">Combined Fixed: Left-Right & Top-Bottom</h3>
+      <Table height="400px" variant="scrollable" horizontal-scroll>
+        <TableHeader>
           <TableRow>
-            <TableHead>№</TableHead>
-            <TableHead>Худуд</TableHead>
-            <TableHead>Умум. Ҷахон сони</TableHead>
-            <TableHead>Жами сони</TableHead>
-            <TableHead>Шуладан </TableHead>
-            <TableHead>Статистик </TableHead>
-            <TableHead>ХЕ гомонидан ургаништан</TableHead>
-            <TableHead>У кеси</TableHead>
-            <TableHead>Шахсий</TableHead>
-            <TableHead>Ижарада</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center">№</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center">Худуд</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center">Туман, Шахар сони</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center" colspan="2">Махаллалар</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center" colspan="3">Хонадонлар сон</TableHead>
+            <TableHead fixed="top" z-index="30" class="text-center" colspan="2">Шундан</TableHead>
+          </TableRow>
+          <TableRow>
+            <TableHead fixed="left" z-index="25" class="text-center">№</TableHead>
+            <TableHead fixed="left" fixed-offset="50px" z-index="25" class="text-center">Худуд</TableHead>
+            <TableHead class="text-center">Туман count</TableHead>
+            <TableHead class="text-center">Жами сони</TableHead>
+            <TableHead class="text-center">Харитада чизилган</TableHead>
+            <TableHead class="text-center">Статистик маълумотлар</TableHead>
+            <TableHead class="text-center">ХЕ томонидан урганилган</TableHead>
+            <TableHead class="text-center">% кесимида</TableHead>
+            <TableHead class="text-center">Шахсий</TableHead>
+            <TableHead class="text-center">Ижарада</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow variant="striped">
-            <TableCell>1</TableCell>
-            <TableCell>Андижон</TableCell>
-            <TableCell align="right">17</TableCell>
-            <TableCell align="right">405</TableCell>
-            <TableCell align="right">304</TableCell>
-            <TableCell align="right">298 213</TableCell>
-            <TableCell align="right">234 107</TableCell>
-            <TableCell align="right">101</TableCell>
-            <TableCell align="right">9 845</TableCell>
-            <TableCell align="right">290</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>2</TableCell>
-            <TableCell>Наманган</TableCell>
-            <TableCell align="right">16</TableCell>
-            <TableCell align="right">911</TableCell>
-            <TableCell align="right">876</TableCell>
-            <TableCell align="right">345 203</TableCell>
-            <TableCell align="right">459 028</TableCell>
-            <TableCell align="right">103</TableCell>
-            <TableCell align="right">3 145</TableCell>
-            <TableCell align="right">546</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>3</TableCell>
-            <TableCell>Фарғона</TableCell>
-            <TableCell align="right">13</TableCell>
-            <TableCell align="right">874</TableCell>
-            <TableCell align="right">567</TableCell>
-            <TableCell align="right">320 083</TableCell>
-            <TableCell align="right">425 793</TableCell>
-            <TableCell align="right">98</TableCell>
-            <TableCell align="right">3 459</TableCell>
-            <TableCell align="right">978</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>4</TableCell>
-            <TableCell>Жиззах</TableCell>
-            <TableCell align="right">13</TableCell>
-            <TableCell align="right">865</TableCell>
-            <TableCell align="right">813</TableCell>
-            <TableCell align="right">428 084</TableCell>
-            <TableCell align="right">546 789</TableCell>
-            <TableCell align="right">96</TableCell>
-            <TableCell align="right">7 129</TableCell>
-            <TableCell align="right">678</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>5</TableCell>
-            <TableCell>Сирдарё</TableCell>
-            <TableCell align="right">12</TableCell>
-            <TableCell align="right">487</TableCell>
-            <TableCell align="right">423</TableCell>
-            <TableCell align="right">542 214</TableCell>
-            <TableCell align="right">189 763</TableCell>
-            <TableCell align="right">105</TableCell>
-            <TableCell align="right">9 786</TableCell>
-            <TableCell align="right">124</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>6</TableCell>
-            <TableCell>Самарқанд</TableCell>
-            <TableCell align="right">11</TableCell>
-            <TableCell align="right">678</TableCell>
-            <TableCell align="right">611</TableCell>
-            <TableCell align="right">876 428</TableCell>
-            <TableCell align="right">243 508</TableCell>
-            <TableCell align="right">100</TableCell>
-            <TableCell align="right">1 567</TableCell>
-            <TableCell align="right">187</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>7</TableCell>
-            <TableCell>Навои</TableCell>
-            <TableCell align="right">16</TableCell>
-            <TableCell align="right">488</TableCell>
-            <TableCell align="right">398</TableCell>
-            <TableCell align="right">420 829</TableCell>
-            <TableCell align="right">892 743</TableCell>
-            <TableCell align="right">93</TableCell>
-            <TableCell align="right">2 789</TableCell>
-            <TableCell align="right">823</TableCell>
-          </TableRow>
-          <TableRow variant="striped">
-            <TableCell>8</TableCell>
-            <TableCell>Тошкент</TableCell>
-            <TableCell align="right">10</TableCell>
-            <TableCell align="right">914</TableCell>
-            <TableCell align="right">875</TableCell>
-            <TableCell align="right">980 231</TableCell>
-            <TableCell align="right">342 578</TableCell>
-            <TableCell align="right">95</TableCell>
-            <TableCell align="right">8 564</TableCell>
-            <TableCell align="right">981</TableCell>
-          </TableRow>
-          <!-- Total Row -->
+          <template v-for="i in 20" :key="i">
+            <TableRow>
+              <TableCell fixed="left" z-index="15" class="text-center">{{ i }}</TableCell>
+              <TableCell fixed="left" fixed-offset="50px" z-index="15">Регион {{ i }}</TableCell>
+              <TableCell class="text-center">{{ 10 + i }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 1000).toFixed(0) }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 800).toFixed(0) }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 500000).toFixed(0) }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 600000).toFixed(0) }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 10 + 90).toFixed(1) }}%</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 10000).toFixed(0) }}</TableCell>
+              <TableCell class="text-right">{{ (Math.random() * 1000).toFixed(0) }}</TableCell>
+            </TableRow>
+          </template>
+          <!-- Footer row with fixed bottom -->
           <TableRow class="font-semibold bg-gray-100">
-            <TableCell>Жами:</TableCell>
-            <TableCell>8 вилоят</TableCell>
-            <TableCell align="right">124</TableCell>
-            <TableCell align="right">982 213</TableCell>
-            <TableCell align="right">765 927</TableCell>
-            <TableCell align="right">12 458 084</TableCell>
-            <TableCell align="right">5 827 211</TableCell>
-            <TableCell align="right">97</TableCell>
-            <TableCell align="right">368 919</TableCell>
-            <TableCell align="right">21 089</TableCell>
+            <TableCell fixed="bottom" z-index="25" class="text-center">Жами:</TableCell>
+            <TableCell fixed="bottom" fixed-offset="50px" z-index="25">Барча</TableCell>
+            <TableCell fixed="bottom" class="text-right">200</TableCell>
+            <TableCell fixed="bottom" class="text-right">15,428</TableCell>
+            <TableCell fixed="bottom" class="text-right">12,850</TableCell>
+            <TableCell fixed="bottom" class="text-right">8,500,000</TableCell>
+            <TableCell fixed="bottom" class="text-right">7,200,000</TableCell>
+            <TableCell fixed="bottom" class="text-right">95.5%</TableCell>
+            <TableCell fixed="bottom" class="text-right">125,000</TableCell>
+            <TableCell fixed="bottom" class="text-right">18,500</TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </div>
 
-    <!-- Scrollable Table -->
-    <div>
-      <h3 class="text-lg font-semibold mb-4">Scrollable Table</h3>
-      <Table variant="scrollable" height="400px">
-        <TableHeader sticky>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Product</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead align="right">Price</TableHead>
-            <TableHead align="center">Stock</TableHead>
-            <TableHead align="center">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <template v-for="i in 50" :key="i">
-            <TableRow>
-              <TableCell>{{ i }}</TableCell>
-              <TableCell>Product {{ i }}</TableCell>
-              <TableCell>Category {{ (i % 5) + 1 }}</TableCell>
-              <TableCell align="right">${{ (Math.random() * 1000).toFixed(2) }}</TableCell>
-              <TableCell align="center">{{ Math.floor(Math.random() * 100) }}</TableCell>
-              <TableCell align="center">
-                <span :class="Math.random() > 0.5 ? 'text-green-600' : 'text-red-600'">
-                  {{ Math.random() > 0.5 ? 'In Stock' : 'Out of Stock' }}
-                </span>
-              </TableCell>
-            </TableRow>
-          </template>
-        </TableBody>
-      </Table>
-    </div>
+    <!-- Default Table - Exact Match from Image -->
+<!--    <div>-->
+<!--      <Table variant="default" >-->
+<!--        <TableHeader>-->
+<!--          <TableRow>-->
+<!--            <TableHead rowspan="2" class="align-middle text-center border-r">№</TableHead>-->
+<!--            <TableHead rowspan="2" class="align-middle text-center border-r">Худуд</TableHead>-->
+<!--            <TableHead rowspan="2" class="align-middle text-center border-r">Туман, Шахар сони</TableHead>-->
+<!--            <TableHead colspan="2" class="text-center border-r border-b">Махаллалар</TableHead>-->
+<!--            <TableHead colspan="3" class="text-center border-r border-b">Хонадонлар сон</TableHead>-->
+<!--            <TableHead colspan="2" class="text-center border-r border-b">Шундан</TableHead>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableHead class="text-center border-r">Жами сони</TableHead>-->
+<!--            <TableHead class="text-center border-r">Шундан харитада чизилган</TableHead>-->
+<!--            <TableHead class="text-center border-r">Статистик маълумотлар бўйича</TableHead>-->
+<!--            <TableHead class="text-center border-r">ХЕ гомонидан урганилган</TableHead>-->
+<!--            <TableHead class="text-center border-r">% кесимида</TableHead>-->
+<!--            <TableHead class="text-center border-r">Шахсий</TableHead>-->
+<!--            <TableHead class="text-center">Ижарада</TableHead>-->
+<!--          </TableRow>-->
+<!--        </TableHeader>-->
+<!--        <TableBody>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">1</TableCell>-->
+<!--            <TableCell class="border-r">Андижон</TableCell>-->
+<!--            <TableCell class="text-center border-r">17</TableCell>-->
+<!--            <TableCell class="text-right border-r">405</TableCell>-->
+<!--            <TableCell class="text-right border-r">304</TableCell>-->
+<!--            <TableCell class="text-right border-r">298 213</TableCell>-->
+<!--            <TableCell class="text-right border-r">234 107</TableCell>-->
+<!--            <TableCell class="text-right border-r">101.2 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">9 845</TableCell>-->
+<!--            <TableCell class="text-right">290</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">2</TableCell>-->
+<!--            <TableCell class="border-r">Наманган</TableCell>-->
+<!--            <TableCell class="text-center border-r">16</TableCell>-->
+<!--            <TableCell class="text-right border-r">911</TableCell>-->
+<!--            <TableCell class="text-right border-r">876</TableCell>-->
+<!--            <TableCell class="text-right border-r">345 203</TableCell>-->
+<!--            <TableCell class="text-right border-r">459 028</TableCell>-->
+<!--            <TableCell class="text-right border-r">103.1 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">3 145</TableCell>-->
+<!--            <TableCell class="text-right">546</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">4</TableCell>-->
+<!--            <TableCell class="border-r">Фаргона</TableCell>-->
+<!--            <TableCell class="text-center border-r">13</TableCell>-->
+<!--            <TableCell class="text-right border-r">874</TableCell>-->
+<!--            <TableCell class="text-right border-r">567</TableCell>-->
+<!--            <TableCell class="text-right border-r">320 083</TableCell>-->
+<!--            <TableCell class="text-right border-r">425 793</TableCell>-->
+<!--            <TableCell class="text-right border-r">98.0 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">3 459</TableCell>-->
+<!--            <TableCell class="text-right">978</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">3</TableCell>-->
+<!--            <TableCell class="border-r">Жиззах</TableCell>-->
+<!--            <TableCell class="text-center border-r">13</TableCell>-->
+<!--            <TableCell class="text-right border-r">865</TableCell>-->
+<!--            <TableCell class="text-right border-r">813</TableCell>-->
+<!--            <TableCell class="text-right border-r">428 084</TableCell>-->
+<!--            <TableCell class="text-right border-r">546 789</TableCell>-->
+<!--            <TableCell class="text-right border-r">96.8 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">7 129</TableCell>-->
+<!--            <TableCell class="text-right">678</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">4</TableCell>-->
+<!--            <TableCell class="border-r">Сирдарё</TableCell>-->
+<!--            <TableCell class="text-center border-r">12</TableCell>-->
+<!--            <TableCell class="text-right border-r">487</TableCell>-->
+<!--            <TableCell class="text-right border-r">423</TableCell>-->
+<!--            <TableCell class="text-right border-r">542 214</TableCell>-->
+<!--            <TableCell class="text-right border-r">189 763</TableCell>-->
+<!--            <TableCell class="text-right border-r">105.5 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">9 786</TableCell>-->
+<!--            <TableCell class="text-right">124</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">5</TableCell>-->
+<!--            <TableCell class="border-r">Самарканд</TableCell>-->
+<!--            <TableCell class="text-center border-r">11</TableCell>-->
+<!--            <TableCell class="text-right border-r">678</TableCell>-->
+<!--            <TableCell class="text-right border-r">611</TableCell>-->
+<!--            <TableCell class="text-right border-r">876 428</TableCell>-->
+<!--            <TableCell class="text-right border-r">243 508</TableCell>-->
+<!--            <TableCell class="text-right border-r">100.1 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">1 567</TableCell>-->
+<!--            <TableCell class="text-right">187</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">6</TableCell>-->
+<!--            <TableCell class="border-r">Навои</TableCell>-->
+<!--            <TableCell class="text-center border-r">16</TableCell>-->
+<!--            <TableCell class="text-right border-r">488</TableCell>-->
+<!--            <TableCell class="text-right border-r">398</TableCell>-->
+<!--            <TableCell class="text-right border-r">420 829</TableCell>-->
+<!--            <TableCell class="text-right border-r">892 743</TableCell>-->
+<!--            <TableCell class="text-right border-r">93.1 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">2 789</TableCell>-->
+<!--            <TableCell class="text-right">823</TableCell>-->
+<!--          </TableRow>-->
+<!--          <TableRow>-->
+<!--            <TableCell class="text-center border-r">7</TableCell>-->
+<!--            <TableCell class="border-r">Тошкент</TableCell>-->
+<!--            <TableCell class="text-center border-r">10</TableCell>-->
+<!--            <TableCell class="text-right border-r">914</TableCell>-->
+<!--            <TableCell class="text-right border-r">875</TableCell>-->
+<!--            <TableCell class="text-right border-r">980 231</TableCell>-->
+<!--            <TableCell class="text-right border-r">342 578</TableCell>-->
+<!--            <TableCell class="text-right border-r">95.9 %</TableCell>-->
+<!--            <TableCell class="text-right border-r">8 564</TableCell>-->
+<!--            <TableCell class="text-right">981</TableCell>-->
+<!--          </TableRow>-->
+<!--          &lt;!&ndash; Total Row &ndash;&gt;-->
+<!--          <TableRow class="font-semibold bg-gray-100">-->
+<!--            <TableCell  class="border-r">Жами:</TableCell>-->
+<!--            <TableCell class="border-r"></TableCell>-->
+<!--            <TableCell class="text-right border-r">124</TableCell>-->
+<!--            <TableCell class="text-right border-r">982 213</TableCell>-->
+<!--            <TableCell class="text-right border-r">765 927</TableCell>-->
+<!--            <TableCell class="text-right border-r">12 458 084</TableCell>-->
+<!--            <TableCell class="text-right border-r">5 827 211</TableCell>-->
+<!--            <TableCell class="text-right border-r">97.1%</TableCell>-->
+<!--            <TableCell class="text-right border-r">368 919</TableCell>-->
+<!--            <TableCell class="text-right">21 089</TableCell>-->
+<!--          </TableRow>-->
+<!--        </TableBody>-->
+<!--      </Table>-->
+<!--    </div>-->
 
-    <!-- Fixed Columns Table -->
-    <div>
-      <h3 class="text-lg font-semibold mb-4">Fixed Columns Table (Left & Right)</h3>
-      <Table variant="scrollable" height="600px" horizontal-scroll>
-        <TableHeader sticky>
-          <TableRow>
-            <TableHead fixed="left" fixed-offset="0px" class="min-w-[60px] w-[60px]">ID</TableHead>
-            <TableHead fixed="left" fixed-offset="60px" class="min-w-[120px] w-[120px]">Company</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Q1 Sales</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Q2 Sales</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Q3 Sales</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Q4 Sales</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Marketing</TableHead>
-            <TableHead class="min-w-[120px] w-[120px]">Operations</TableHead>
-            <TableHead fixed="right" fixed-offset="80px" align="right" class="min-w-[100px] w-[100px]">Revenue</TableHead>
-            <TableHead fixed="right" fixed-offset="0px" align="center" class="min-w-[80px] w-[80px]">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <template v-for="company in dynamicTableData" :key="company.id">
-            <TableRow>
-              <TableCell fixed="left" fixed-offset="0px" class="min-w-[60px] w-[60px]">{{ company.id }}</TableCell>
-              <TableCell fixed="left" fixed-offset="60px" class="min-w-[120px] w-[120px] font-medium">{{ company.name }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.q1Sales.toLocaleString() }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.q2Sales.toLocaleString() }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.q3Sales.toLocaleString() }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.q4Sales.toLocaleString() }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.marketing.toLocaleString() }}</TableCell>
-              <TableCell class="min-w-[120px] w-[120px]">${{ company.operations.toLocaleString() }}</TableCell>
-              <TableCell fixed="right" fixed-offset="80px" align="right" class="min-w-[100px] w-[100px] font-semibold">
-                ${{ company.totalRevenue.toLocaleString() }}
-              </TableCell>
-              <TableCell fixed="right" fixed-offset="0px" align="center" class="min-w-[80px] w-[80px]">
-                <span
-                  :class="[
-                    'px-2 py-1 rounded-full text-xs font-medium',
-                    company.status === 'Active' ? 'bg-green-100 text-green-800' :
-                    company.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  ]"
-                >
-                  {{ company.status }}
-                </span>
-              </TableCell>
-            </TableRow>
-          </template>
-        </TableBody>
-      </Table>
-    </div>
+<!--    &lt;!&ndash; Scrollable Table &ndash;&gt;-->
+<!--    <div>-->
+<!--      <h3 class="text-lg font-semibold mb-4">Scrollable Table</h3>-->
+<!--      <Table height="400px" variant="scrollable">-->
+<!--        <TableHeader sticky>-->
+<!--          <TableRow>-->
+<!--            <TableHead>ID</TableHead>-->
+<!--            <TableHead>Product</TableHead>-->
+<!--            <TableHead>Category</TableHead>-->
+<!--            <TableHead align="right">Price</TableHead>-->
+<!--            <TableHead align="center">Stock</TableHead>-->
+<!--            <TableHead align="center">Status</TableHead>-->
+<!--          </TableRow>-->
+<!--        </TableHeader>-->
+<!--        <TableBody>-->
+<!--          <template v-for="i in 50" :key="i">-->
+<!--            <TableRow>-->
+<!--              <TableCell>{{ i }}</TableCell>-->
+<!--              <TableCell>Product {{ i }}</TableCell>-->
+<!--              <TableCell>Category {{ (i % 5) + 1 }}</TableCell>-->
+<!--              <TableCell align="right">${{ (Math.random() * 1000).toFixed(2) }}</TableCell>-->
+<!--              <TableCell align="center">{{ Math.floor(Math.random() * 100) }}</TableCell>-->
+<!--              <TableCell align="center">-->
+<!--                <span :class="Math.random() > 0.5 ? 'text-green-600' : 'text-red-600'">-->
+<!--                  {{ Math.random() > 0.5 ? 'In Stock' : 'Out of Stock' }}-->
+<!--                </span>-->
+<!--              </TableCell>-->
+<!--            </TableRow>-->
+<!--          </template>-->
+<!--        </TableBody>-->
+<!--      </Table>-->
+<!--    </div>-->
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableHead,
-  TableRow,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'
-
-// Dynamic table data
-const companies = [
-  'TechCorp Solutions', 'Global Innovations', 'DataFlow Systems', 'CloudMax Enterprise',
-  'InnovateTech', 'FutureSoft', 'NextGen Analytics', 'SmartBiz Solutions',
-  'DigitalEdge', 'ProActive Systems', 'MetaData Inc', 'CyberLink Technologies',
-  'WebForce Dynamics', 'AI Ventures', 'BlockChain Innovations', 'QuantumLeap',
-  'ByteStream Corp', 'CodeCrafters', 'TechVision Group', 'DataMine Solutions'
-]
-
-const statuses = ['Active', 'Pending', 'Inactive']
-
-const generateRandomData = (id) => {
-  const q1 = Math.floor(Math.random() * 500000) + 100000
-  const q2 = Math.floor(Math.random() * 600000) + 150000
-  const q3 = Math.floor(Math.random() * 550000) + 120000
-  const q4 = Math.floor(Math.random() * 700000) + 200000
-  const marketing = Math.floor(Math.random() * 100000) + 20000
-  const operations = Math.floor(Math.random() * 80000) + 15000
-
-  return {
-    id,
-    name: companies[id - 1] || `Company ${id}`,
-    q1Sales: q1,
-    q2Sales: q2,
-    q3Sales: q3,
-    q4Sales: q4,
-    marketing,
-    operations,
-    totalRevenue: q1 + q2 + q3 + q4,
-    status: statuses[Math.floor(Math.random() * statuses.length)]
-  }
-}
-
-const dynamicTableData = ref(
-  Array.from({ length: 10 }, (_, index) => generateRandomData(index + 1))
-)
 </script>

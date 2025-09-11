@@ -7,6 +7,8 @@ const props = defineProps({
   height: { type: String, default: 'auto' },
   title: { type: String, required: false },
   horizontalScroll: { type: Boolean, default: false }, // Enable horizontal scroll for fixed columns
+  stickyHeader: { type: Boolean, default: false }, // Make header sticky (top fixed)
+  stickyFooter: { type: Boolean, default: false }, // Make footer sticky (bottom fixed)
 });
 
 const getWrapperClasses = () => {
@@ -18,7 +20,7 @@ const getWrapperClasses = () => {
     case 'scrollable':
       return cn(baseClasses, 'border rounded-lg shadow-sm bg-white overflow-hidden');
     default:
-      return cn(baseClasses, 'overflow-auto');
+      return cn(baseClasses, '');
   }
 };
 
@@ -30,7 +32,7 @@ const getTableClasses = () => {
     case 'scrollable':
       return cn(baseClasses, 'border-collapse');
     default:
-      return cn(baseClasses, 'w-full');
+      return cn(baseClasses, 'w-full border-collapse border border-gray-300');
   }
 };
 
@@ -57,6 +59,11 @@ const getScrollContainerClasses = () => {
 
   if (props.horizontalScroll) {
     return cn(baseClasses, 'overflow-x-auto');
+  }
+
+  // Add special handling for sticky headers/footers
+  if (props.stickyHeader || props.stickyFooter) {
+    return cn(baseClasses, 'overflow-auto');
   }
 
   return baseClasses;

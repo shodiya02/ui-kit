@@ -5,10 +5,9 @@
         <h1 class="text-2xl font-bold text-foreground">MultiSelect - Figma Aligned</h1>
       </div>
 
-      <TooltipExample/>
+<!--      <TooltipExample/>-->
       <TableExample />
 
-      <!-- Test different variants -->
 <!--      <div class="space-y-6">-->
 <!--        <div class="space-y-2">-->
 <!--          <MultiSelect-->
