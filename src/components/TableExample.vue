@@ -6,31 +6,27 @@
       <Table height="400px" variant="scrollable" horizontal-scroll>
         <TableHeader>
           <TableRow>
-            <TableHead fixed="top" z-index="30" class="text-center">№</TableHead>
-            <TableHead fixed="top" z-index="30" class="text-center">Худуд</TableHead>
-            <TableHead fixed="top" z-index="30" class="text-center">Туман, Шахар сони</TableHead>
-            <TableHead fixed="top" z-index="30" class="text-center" colspan="2">Махаллалар</TableHead>
-            <TableHead fixed="top" z-index="30" class="text-center" colspan="3">Хонадонлар сон</TableHead>
-            <TableHead fixed="top" z-index="30" class="text-center" colspan="2">Шундан</TableHead>
-          </TableRow>
-          <TableRow>
-            <TableHead fixed="left" z-index="25" class="text-center">№</TableHead>
-            <TableHead fixed="left" fixed-offset="50px" z-index="25" class="text-center">Худуд</TableHead>
-            <TableHead class="text-center">Туман count</TableHead>
-            <TableHead class="text-center">Жами сони</TableHead>
-            <TableHead class="text-center">Харитада чизилган</TableHead>
-            <TableHead class="text-center">Статистик маълумотлар</TableHead>
-            <TableHead class="text-center">ХЕ томонидан урганилган</TableHead>
-            <TableHead class="text-center">% кесимида</TableHead>
-            <TableHead class="text-center">Шахсий</TableHead>
-            <TableHead class="text-center">Ижарада</TableHead>
+            <!-- Corner cells: both top+left fixed (highest z-index) -->
+            <TableHead fixed-vertical="top" fixed-horizontal="left" class="text-center">№</TableHead>
+            <TableHead fixed-vertical="top" fixed-horizontal="left" fixed-offset-h="50px" class="text-center">Худуд</TableHead>
+            <!-- Top-only fixed headers -->
+            <TableHead fixed-vertical="top" class="text-center">Туман сони</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">Жами махалла</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">Харитада</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">Статистик</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">ХЕ томонидан</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">% кесим</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">Шахсий</TableHead>
+            <TableHead fixed-vertical="top" class="text-center">Ижарада</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <template v-for="i in 20" :key="i">
             <TableRow>
-              <TableCell fixed="left" z-index="15" class="text-center">{{ i }}</TableCell>
-              <TableCell fixed="left" fixed-offset="50px" z-index="15">Регион {{ i }}</TableCell>
+              <!-- Left-only fixed columns -->
+              <TableCell fixed-horizontal="left" class="text-center">{{ i }}</TableCell>
+              <TableCell fixed-horizontal="left" fixed-offset-h="50px">Регион {{ i }}</TableCell>
+              <!-- Regular scrollable cells -->
               <TableCell class="text-center">{{ 10 + i }}</TableCell>
               <TableCell class="text-right">{{ (Math.random() * 1000).toFixed(0) }}</TableCell>
               <TableCell class="text-right">{{ (Math.random() * 800).toFixed(0) }}</TableCell>
@@ -41,20 +37,23 @@
               <TableCell class="text-right">{{ (Math.random() * 1000).toFixed(0) }}</TableCell>
             </TableRow>
           </template>
-          <!-- Footer row with fixed bottom -->
-          <TableRow class="font-semibold bg-gray-100">
-            <TableCell fixed="bottom" z-index="25" class="text-center">Жами:</TableCell>
-            <TableCell fixed="bottom" fixed-offset="50px" z-index="25">Барча</TableCell>
-            <TableCell fixed="bottom" class="text-right">200</TableCell>
-            <TableCell fixed="bottom" class="text-right">15,428</TableCell>
-            <TableCell fixed="bottom" class="text-right">12,850</TableCell>
-            <TableCell fixed="bottom" class="text-right">8,500,000</TableCell>
-            <TableCell fixed="bottom" class="text-right">7,200,000</TableCell>
-            <TableCell fixed="bottom" class="text-right">95.5%</TableCell>
-            <TableCell fixed="bottom" class="text-right">125,000</TableCell>
-            <TableCell fixed="bottom" class="text-right">18,500</TableCell>
-          </TableRow>
         </TableBody>
+        <TableFooter>
+          <!-- Footer row with corner cells: both bottom+left fixed -->
+          <TableRow class="font-semibold bg-gray-100">
+            <TableCell fixed-vertical="bottom" fixed-horizontal="left" class="text-center">Жами:</TableCell>
+            <TableCell fixed-vertical="bottom" fixed-horizontal="left" fixed-offset-h="50px">Барча</TableCell>
+            <!-- Bottom-only fixed totals -->
+            <TableCell fixed-vertical="bottom" class="text-right">200</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">15,428</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">12,850</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">8,500,000</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">7,200,000</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">95.5%</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">125,000</TableCell>
+            <TableCell fixed-vertical="bottom" class="text-right">18,500</TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
     </div>
 
@@ -237,5 +236,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from '@/components/ui/table'
 </script>

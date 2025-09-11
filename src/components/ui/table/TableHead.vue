@@ -4,49 +4,64 @@ import { cn } from "@/lib/utils";
 const props = defineProps({
   class: { type: null, required: false },
   align: { type: String, default: 'left' }, // left, center, right
-  fixed: { type: String, required: false }, // left, right, top, bottom
-  fixedOffset: { type: String, default: '0px' }, // offset from edge when fixed
-  zIndex: { type: Number, default: 20 }, // z-index for fixed positioning
+  fixedHorizontal: { type: String, required: false }, // left, right
+  fixedVertical: { type: String, required: false }, // top, bottom
+  fixedOffsetH: { type: String, default: '0px' }, // horizontal offset
+  fixedOffsetV: { type: String, default: '0px' }, // vertical offset
 });
 
 const getFixedClasses = () => {
-  if (!props.fixed) return '';
+  if (!props.fixedHorizontal && !props.fixedVertical) return '';
 
-  const baseFixed = `sticky bg-white/95 backdrop-blur-sm z-${props.zIndex}`;
+  let classes = 'sticky bg-white font-medium';
+  
+  // Add shadows based on fixed directions
+  if (props.fixedHorizontal === 'left') {
+    classes += ' shadow-[2px_0_6px_-1px_rgba(0,0,0,0.1)]';
+  }
+  if (props.fixedHorizontal === 'right') {
+    classes += ' shadow-[-2px_0_6px_-1px_rgba(0,0,0,0.1)]';
+  }
+  if (props.fixedVertical === 'top') {
+    classes += ' shadow-[0_2px_6px_-1px_rgba(0,0,0,0.1)]';
+  }
+  if (props.fixedVertical === 'bottom') {
+    classes += ' shadow-[0_-2px_6px_-1px_rgba(0,0,0,0.1)]';
+  }
 
-  if (props.fixed === 'left') {
-    return `${baseFixed} border-r-2 border-gray-200 shadow-[4px_0_8px_-2px_rgba(0,0,0,0.15)] before:absolute before:inset-0 before:bg-white before:-z-10`;
-  }
-  if (props.fixed === 'right') {
-    return `${baseFixed} border-l-2 border-gray-200 shadow-[-4px_0_8px_-2px_rgba(0,0,0,0.15)] before:absolute before:inset-0 before:bg-white before:-z-10`;
-  }
-  if (props.fixed === 'top') {
-    return `${baseFixed} border-b-2 border-gray-200 shadow-[0_4px_8px_-2px_rgba(0,0,0,0.15)] before:absolute before:inset-0 before:bg-white before:-z-10`;
-  }
-  if (props.fixed === 'bottom') {
-    return `${baseFixed} border-t-2 border-gray-200 shadow-[0_-4px_8px_-2px_rgba(0,0,0,0.15)] before:absolute before:inset-0 before:bg-white before:-z-10`;
-  }
-
-  return '';
+  return classes;
 };
 
 const getFixedStyle = () => {
-  if (!props.fixed) return {};
+  const style = {};
 
-  if (props.fixed === 'left') {
-    return { left: props.fixedOffset };
+  if (!props.fixedHorizontal && !props.fixedVertical) return style;
+
+  // Calculate z-index based on combined positioning
+  let zIndex = 1;
+  if (props.fixedVertical) zIndex += 10; // top/bottom gets +10
+  if (props.fixedHorizontal) zIndex += 20; // left/right gets +20
+  // Corner cells (both) get 30+ z-index
+  
+  style.zIndex = zIndex;
+
+  // Apply horizontal positioning
+  if (props.fixedHorizontal === 'left') {
+    style.left = props.fixedOffsetH;
   }
-  if (props.fixed === 'right') {
-    return { right: props.fixedOffset };
+  if (props.fixedHorizontal === 'right') {
+    style.right = props.fixedOffsetH;
   }
-  if (props.fixed === 'top') {
-    return { top: props.fixedOffset };
+  
+  // Apply vertical positioning
+  if (props.fixedVertical === 'top') {
+    style.top = props.fixedOffsetV;
   }
-  if (props.fixed === 'bottom') {
-    return { bottom: props.fixedOffset };
+  if (props.fixedVertical === 'bottom') {
+    style.bottom = props.fixedOffsetV;
   }
 
-  return {};
+  return style;
 };
 </script>
 
@@ -55,7 +70,7 @@ const getFixedStyle = () => {
     v-bind="$attrs"
     :class="
       cn(
-        'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-0.5 border border-gray-300',
+        'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-0.5 border-r border-b border-gray-300',
         props.align === 'center' && 'text-center',
         props.align === 'right' && 'text-right',
         getFixedClasses(),
